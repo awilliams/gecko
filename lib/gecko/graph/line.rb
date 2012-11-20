@@ -3,7 +3,7 @@ module Gecko
     class Line < Widget
       include Enumerable
 
-      attr_accessor :color
+      attr_accessor :color, :x_axis, :y_axis
 
       def initialize(*args, &block)
         super
@@ -20,17 +20,9 @@ module Gecko
         @items.push(*args)
       end
 
-      def reset(*args)
+      def reset
         @items.clear
-        self.add(*args)
-      end
-
-      def x_axis
-        @x_axis
-      end
-
-      def y_axis
-        @y_axis
+        self
       end
 
       def add_x_axis(*args)
@@ -47,6 +39,10 @@ module Gecko
 
       def []=(index, *args)
         @items[index] = *args
+      end
+
+      def items=(array)
+        @items = array
       end
 
       def delete(index)

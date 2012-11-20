@@ -14,6 +14,11 @@ module Gecko
         @items = []
       end
 
+      def reset
+        @items.clear
+        self
+      end
+
       def standard
         @reverse = :standard
       end

@@ -14,6 +14,11 @@ module Gecko
         @items.each(&block)
       end
 
+      def reset
+        @items.clear
+        self
+      end
+
       def add(*args)
         @items.push(Item.new(*args))
       end
@@ -31,7 +36,13 @@ module Gecko
       end
 
       def data_payload
-        {:item => self.map{|item| {:value => item.value, :label => item.label, :colour => item.color} }}
+        {:item => self.map{|item| self.item_payload(item) }}
+      end
+
+      def item_payload(item)
+        h = {:value => item.value, :label => item.label}
+        h.merge!({:colour => item.color}) if item.color
+        h
       end
     end
   end

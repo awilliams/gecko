@@ -29,6 +29,11 @@ module Gecko
         @items = []
       end
 
+      def reset
+        @items.clear
+        self
+      end
+
       def each(&block)
         @items.each(&block)
       end
