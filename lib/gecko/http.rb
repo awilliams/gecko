@@ -24,6 +24,10 @@ module Gecko
         end
       end
 
+      def response_body
+        self.faraday_response.body
+      end
+
       def success?
         self.http_200? && !self.error?
       end
@@ -37,7 +41,7 @@ module Gecko
       end
 
       def fetch(*keys)
-        keys.inject(self.faraday_response.body) do |body_hash, key|
+        keys.inject(self.response_body) do |body_hash, key|
           break unless body_hash
           body_hash.fetch(key, nil)
         end
