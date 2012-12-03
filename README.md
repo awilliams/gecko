@@ -1,6 +1,7 @@
 # Gecko
 
-Ruby gem for working with Geckoboard's Push API
+Ruby gem for working with Geckoboard's Push API. Uses Faraday for HTTP and designed for use with
+EventMachine and callbacks
 
 http://docs.geckoboard.com/custom-widgets/
 
@@ -42,6 +43,12 @@ Or install it yourself as:
     }.config! { |widget|
       widget.add("another test", :info)
     }
+
+    # Delete previous values
+    widget = Gecko::Widget::Text.new("1234-abcdefg")
+    widget.reset.config! do |w|
+      widget.add("text alert", :alert)
+    end
 
 ## Contributing
 

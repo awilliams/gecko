@@ -4,9 +4,9 @@ require File.expand_path('../lib/gecko/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Adam Williams"]
   gem.email         = ["pwnfactory@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = %q{Ruby library for updating Geckoboard Custom Widgets. Uses Faraday for HTTP requests and designed to work with the async API}
+  gem.summary       = %q{Ruby library for updating Geckoboard Custom Widgets}
+  gem.homepage      = "https://github.com/awilliams/Gecko"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = []
