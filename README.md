@@ -20,7 +20,7 @@ Or install it yourself as:
     $ gem install gecko
 
 ## Usage
-
+```ruby
     # Configuration
     Gecko.config do |c|
       # Your Geckoboard API key
@@ -49,7 +49,7 @@ Or install it yourself as:
     widget.reset.config! do |w|
       widget.add("text alert", :alert)
     end
-
+```
 ## Contributing
 
 1. Fork it
