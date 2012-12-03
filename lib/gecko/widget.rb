@@ -39,6 +39,7 @@ module Gecko
 
     def config!(&block)
       self.config(&block).update
+      self
     end
 
     def data_payload
