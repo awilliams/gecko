@@ -5,9 +5,14 @@ module Gecko
     attr_reader :data, :keys
 
     def initialize(*keys, &block)
-      @keys = keys.flatten
+      self.keys = *keys
       @on_update = nil
       block.call(self) if block
+      raise ArgumentError, "1 or more widget keys are required" if self.keys.empty?
+    end
+
+    def keys=(*keys)
+      @keys = keys.flatten.compact
     end
 
     def on_update(&block)

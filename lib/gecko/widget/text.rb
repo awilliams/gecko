@@ -3,8 +3,6 @@ module Gecko
     class Text < Widget
       include Enumerable
 
-      UndefinedTextType = Class.new(Exception)
-
       class Item
         TYPES = {
           :normal => 0,
@@ -20,7 +18,12 @@ module Gecko
         end
 
         def type=(type)
-          @type = type.kind_of?(Numeric) ? type : (TYPES.fetch(type) or raise UndefinedTextType, "#{type} is not a valid text type")
+          @type = if type.kind_of?(Numeric)
+            TYPES.values.include?(type) ? type : nil
+          else
+            TYPES.fetch(type, nil)
+          end
+          @type or raise ArgumentError, "#{type} is not a valid text type"
         end
       end
 
