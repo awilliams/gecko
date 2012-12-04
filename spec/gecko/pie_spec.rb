@@ -1,6 +1,6 @@
 require 'helper'
 
-describe Gecko::Widget::Geckometer do
+describe Gecko::Widget::Pie do
   it_behaves_like "a Gecko::Widget"
 
   describe '#payload' do
@@ -11,23 +11,25 @@ describe Gecko::Widget::Geckometer do
     it 'should be empty by default' do
       expect(@widget.payload).to be_a_valid_payload(
         TEST_API_KEY,
-        {:item => nil,
-        :min => {:value => nil, :text => nil},
-        :max => {:value => nil, :text => nil}},
+        {
+          :item => []
+        }
       )
     end
 
     it 'should be correct hash when values assigned' do
-      @widget.min_value = 0
-      @widget.max_value = 100
-      @widget.min_text = 'min'
-      @widget.max_value = 'max'
-      @widget.value = 50
+      @widget.add(1, 'first', '#cc0000')
+      @widget.add(2, 'second', '#ffffff')
+      @widget.add(3, 'third')
       expect(@widget.payload).to be_a_valid_payload(
         TEST_API_KEY,
-        {:item => 50,
-         :min => {:value => 0, :text => 'min'},
-         :max => {:value => 100, :text => 'max'}},
+        {
+          :item => [
+            {:value => 1, :label => 'first', :colour => '#cc0000'},
+            {:value => 2, :label => 'second', :colour => '#ffffff'},
+            {:value => 3, :label => 'third'},
+          ]
+        }
       )
     end
   end
