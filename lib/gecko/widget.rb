@@ -1,7 +1,5 @@
 module Gecko
   class Widget
-    BASE_URL = 'https://push.geckoboard.com/v1/send/:widget_key'
-
     attr_reader :data, :keys
 
     def initialize(*keys, &block)
@@ -21,17 +19,17 @@ module Gecko
     end
 
     def push_url(key)
-      BASE_URL.gsub(/:widget_key/, key)
+      Gecko.config.api_push_url.gsub(/:widget_key/, key)
     end
 
-    def update(&on_complete)
+    def update(&on_update)
       self.keys.map do |key|
         request = Gecko::Http.new(self.push_url(key)).post do |req|
           req.body = MultiJson.dump(self.payload)
         end
         request.on_complete do |*args|
           @on_update.call(*args) if @on_update.respond_to?(:call)
-          on_complete.call(*args) if on_complete
+          on_update.call(*args) if on_update
         end
         request
       end

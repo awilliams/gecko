@@ -17,6 +17,7 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency "faraday", "~> 0.8.4"
   gem.add_dependency "faraday_middleware-multi_json", "~> 0.0.4"
+  gem.add_dependency "multi_json"
 
   gem.add_development_dependency "pry"
   gem.add_development_dependency "awesome_print"

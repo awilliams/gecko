@@ -2,6 +2,19 @@ require 'faraday_middleware/multi_json'
 
 module Gecko
   class Http
+    def initialize(*args)
+      @connection = Faraday.new(*args) do |connection|
+        connection.response :multi_json, :symbolize_keys => true
+        Gecko.config.connection_builder.call(connection) if Gecko.config.connection_builder.respond_to?(:call)
+        yield connection if block_given?
+        connection.adapter Faraday.default_adapter if connection.builder.handlers.none? { |handler| handler.klass < Faraday::Adapter }
+      end
+      self
+    end
+
+    def post(*args, &block)
+      Result.new(@connection.post(*args, &block))
+    end
 
     class Result
       Error = Struct.new(:text, :status) do
@@ -52,18 +65,5 @@ module Gecko
       end
     end
 
-    def initialize(*args)
-      @connection = Faraday.new(*args) do |connection|
-        connection.response :multi_json, :symbolize_keys => true
-        Gecko.config.connection_builder.call(connection) if Gecko.config.connection_builder.respond_to?(:call)
-        yield connection if block_given?
-        connection.adapter Faraday.default_adapter if connection.builder.handlers.none? { |handler| handler.klass < Faraday::Adapter }
-      end
-      self
-    end
-
-    def post(*args, &block)
-      Result.new(@connection.post(*args, &block))
-    end
   end
 end
