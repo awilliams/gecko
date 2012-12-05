@@ -1,4 +1,4 @@
-# Gecko
+# Gecko [![Build Status](https://secure.travis-ci.org/awilliams/Gecko.png?branch=master)](https://travis-ci.org/awilliams/Gecko)
 
 Ruby gem for working with Geckoboard's Push API.
 
