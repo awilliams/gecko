@@ -16,3 +16,10 @@ RSpec::Matchers.define :be_a_valid_payload do |api_key, data|
     "expected that\n#{actual.inspect}\nwould be\n#{payload(api_key, data).inspect}"
   end
 end
+
+# Thanks https://gist.github.com/1428875
+class MockBlock
+  def to_proc
+    lambda { |*a| call(*a) }
+  end
+end

@@ -14,7 +14,7 @@ module Gecko
     end
 
     def on_update(&block)
-      @on_update = block
+      @permanent_on_update = block
       self
     end
 
@@ -23,15 +23,21 @@ module Gecko
     end
 
     def update(&on_update)
-      self.keys.map do |key|
-        request = Gecko::Http.new(self.push_url(key)).post do |req|
-          req.body = MultiJson.dump(self.payload)
-        end
-        request.on_complete do |*args|
-          @on_update.call(*args) if @on_update.respond_to?(:call)
+      self.push_requests do |push_result, key|
+        push_result.on_complete do |*args|
+          args << key
+          @permanent_on_update.call(*args) if @permanent_on_update.respond_to?(:call)
           on_update.call(*args) if on_update
         end
-        request
+      end
+    end
+
+    def push_requests(&each_result)
+      self.keys.map do |key|
+        http = Gecko::Http.new
+        push_result = http.post(self.push_url(key), self.payload)
+        each_result.call(push_result, key) if each_result
+        push_result
       end
     end
 

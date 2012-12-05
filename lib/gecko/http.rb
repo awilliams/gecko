@@ -12,8 +12,19 @@ module Gecko
       self
     end
 
-    def post(*args, &block)
-      Result.new(@connection.post(*args, &block))
+    def headers
+      {
+        :accept => 'application/json',
+        :user_agent => Gecko.config.http_user_agent
+      }
+    end
+
+    def encode_body(body)
+      MultiJson.encode(body)
+    end
+
+    def post(url, body, &request_block)
+      Result.new(@connection.post(url, self.encode_body(body), self.headers, &request_block))
     end
 
     class Result
@@ -23,22 +34,22 @@ module Gecko
         end
       end
 
-      attr_reader :faraday_response
-      attr_accessor :faraday_response_env
+      attr_reader :response
+      attr_accessor :response_env
 
-      def initialize(faraday_response)
-        @faraday_response = faraday_response
+      def initialize(response)
+        @response = response
       end
 
       def on_complete(&block)
-        self.faraday_response.on_complete do |env|
-          self.faraday_response_env = env
+        self.response.on_complete do |env|
+          self.response_env = env
           block.call(self.success?, self)
         end
       end
 
       def response_body
-        self.faraday_response.body
+        self.response.body
       end
 
       def success?
@@ -46,11 +57,15 @@ module Gecko
       end
 
       def http_200?
-        self.faraday_response.status == 200
+        self.response.status == 200
       end
 
       def error?
         self.fetch(:success) != true
+      end
+
+      def error
+        Error.new(self.fetch(:error), self.response.status)
       end
 
       def fetch(*keys)
@@ -59,11 +74,6 @@ module Gecko
           body_hash.fetch(key, nil)
         end
       end
-
-      def error
-        Error.new(self.fetch(:error), self.faraday_response.status)
-      end
     end
-
   end
 end

@@ -1,9 +1,9 @@
 require 'helper'
 
 describe Gecko::Http do
-  def stub_post(url, &response)
+  def stub_post(url, request_body = {}, &response)
     stub = Faraday::Adapter::Test::Stubs.new do |stub|
-      stub.post(url, &response)
+      stub.post(url, MultiJson.encode(request_body), &response)
     end
     described_class.new do |builder|
       builder.adapter :test, stub
@@ -31,25 +31,25 @@ describe Gecko::Http do
 
   describe '#post' do
     it 'fails if non-json result given' do
-      http = stub_post('/test') { [200, {}, 'caca'] }
-      expect { http.post('/test') }.to raise_exception(MultiJson::DecodeError)
+      http = stub_post('/test', {:test => true}) { [200, {}, 'caca'] }
+      expect { http.post('/test', {:test => true}) }.to raise_exception(MultiJson::DecodeError)
     end
 
     it 'should return a Result object' do
-      http = stub_post('/test') { [200, {}, MultiJson.encode({})] }
-      expect(http.post('/test')).to be_a(described_class::Result)
+      http = stub_post('/test', {:test => true}) { [200, {}, MultiJson.encode({})] }
+      expect(http.post('/test', {:test => true})).to be_a(described_class::Result)
     end
 
     it 'should yield a Faraday::Request instance' do
-      http = stub_post('/test') { [200, {}, MultiJson.encode({})] }
-      expect { |p| http.post('/test', &p) }.to yield_with_args(Faraday::Request)
+      http = stub_post('/test', {:test => true}) { [200, {}, MultiJson.encode({})] }
+      expect { |p| http.post('/test', {:test => true}, &p) }.to yield_with_args(Faraday::Request)
     end
 
     describe described_class::Result do
       context 'success response' do
         before(:each) do
-          @http = stub_post('/test') { [200, {}, MultiJson.encode({:success => true, :other_key => {:nested_key => 1234}})] }
-          @response = @http.post('/test')
+          @http = stub_post('/test', {:test => true}) { [200, {}, MultiJson.encode({:success => true, :other_key => {:nested_key => 1234}})] }
+          @response = @http.post('/test', {:test => true})
         end
 
         it '#response_body should be a converted from JSON' do
@@ -93,8 +93,8 @@ describe Gecko::Http do
 
       context 'error response' do
         before(:each) do
-          @http = stub_post('/test') { [400, {}, MultiJson.encode({:success => false, :error => {:nested_key => 1234}})] }
-          @response = @http.post('/test')
+          @http = stub_post('/test', {:test => true}) { [400, {}, MultiJson.encode({:success => false, :error => {:nested_key => 1234}})] }
+          @response = @http.post('/test', {:test => true})
         end
 
         it '#response_body should be a converted from JSON' do

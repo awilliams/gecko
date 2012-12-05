@@ -1,6 +1,6 @@
 module Gecko
   class Configurator
-    attr_accessor :api_key, :api_push_url
+    attr_accessor :api_key, :api_push_url, :http_user_agent
     attr_reader :connection_builder
 
     # Block invoked with Faraday builder when creating a connection
