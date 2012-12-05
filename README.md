@@ -1,13 +1,11 @@
 # Gecko [![Build Status](https://secure.travis-ci.org/awilliams/Gecko.png?branch=master)](https://travis-ci.org/awilliams/Gecko)
 
-Ruby gem for working with Geckoboard's Push API.
+Ruby gem for working with [Geckoboard's Push API](http://docs.geckoboard.com/custom-widgets/). 
 
 Features:
 * Uses Faraday gem for HTTP. You can easily swapout adapters
 * Designed for use with non-blocking requests (EventMachine)
 * Allows for multiple widget keys per widget object. Useful for updating widgets on multiple dashboards at once
-
-http://docs.geckoboard.com/custom-widgets/
 
 ## Installation
 
