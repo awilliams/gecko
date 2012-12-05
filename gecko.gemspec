@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["pwnfactory@gmail.com"]
   gem.description   = %q{Ruby library for updating Geckoboard Custom Widgets. Uses Faraday for HTTP requests and designed to work with the async API}
   gem.summary       = %q{Ruby library for updating Geckoboard Custom Widgets}
-  gem.homepage      = "https://github.com/awilliams/Gecko"
+  gem.homepage      = "https://github.com/awilliams/gecko"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = []
