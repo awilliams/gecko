@@ -73,7 +73,7 @@ text_widget.config! do |widget|
 end
 ```
 
-### Delete reset widget values
+### Reset widget values
 ```ruby
 widget = Gecko::Widget::Text.new("1234-abcdefg")
 # reset clear out previous items
