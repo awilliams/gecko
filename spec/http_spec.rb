@@ -30,9 +30,9 @@ describe Gecko::Http do
   end
 
   describe '#post' do
-    it 'fails if non-json result given' do
-      http = stub_post('/test', {:test => true}) { [200, {}, 'caca'] }
-      expect { http.post('/test', {:test => true}) }.to raise_exception(MultiJson::DecodeError)
+    it 'returns string if invalid json given' do
+      http = stub_post('/test', {:test => true}) { [200, {}, 'caca}'] }
+      expect(http.post('/test', {:test => true}).response_body).to eq("caca}") 
     end
 
     it 'should return a Result object' do
