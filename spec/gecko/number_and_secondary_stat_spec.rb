@@ -11,18 +11,21 @@ describe Gecko::Widget::NumberSecondaryStat do
     it 'should be empty by default' do
       expect(@widget.payload).to be_a_valid_payload(
         TEST_API_KEY,
-        {:item => [{:value => nil, :text => nil}, {:value => nil, :text => nil}]}
+        {:item => [{:value => nil, :text => nil, :prefix => nil}, {:value => nil, :text => nil, :prefix => nil}], :absolute => nil, :type => nil}
       )
     end
 
     it 'should be correct hash when values assigned' do
       @widget.primary_text = 'text A'
       @widget.primary_value = 1
+      @widget.primary_prefix = "$"
       @widget.secondary_text = 'text B'
       @widget.secondary_value = 2
+      @widget.absolute = "true"
+      @widget.type = "reverse"
       expect(@widget.payload).to be_a_valid_payload(
         TEST_API_KEY,
-        {:item => [{:value => 1, :text => 'text A'}, {:value => 2, :text => 'text B'}]}
+        {:item => [{:value => 1, :text => 'text A', :prefix => "$"}, {:value => 2, :text => 'text B', :prefix => nil}], :absolute => "true", :type => "reverse"}
       )
     end
   end
