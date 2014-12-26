@@ -68,6 +68,7 @@ require 'gecko/widget/number_secondary_stat'
 require 'gecko/widget/rag'
 require 'gecko/widget/rag_columns'
 require 'gecko/widget/text'
+require 'gecko/widget/leaderboard'
 
 require 'gecko/graph/pie'
 require 'gecko/graph/geckometer'
