@@ -3,61 +3,64 @@ module Gecko
     class Line < Widget
       include Enumerable
 
-      attr_accessor :color, :x_axis, :y_axis
+      attr_accessor :series, :labels, :type, :format, :unit
+
+      Serie = Struct.new(:data, :name, :incomplete_from, :type)
 
       def initialize(*args, &block)
         super
-        @x_axis = []
-        @y_axis = []
-        @items = []
+        @x_axis = {}
+        @y_axis = {}
+        @series = []
       end
 
       def each(&block)
-        @items.each(&block)
+        @series.each(&block)
       end
 
       def add(*args)
-        @items.push(*args)
+        @series.push(Serie.new(*args))
       end
 
       def reset
-        @items.clear
+        @series.clear
         self
       end
 
-      def add_x_axis(*args)
-        @x_axis.push(*args)
-      end
-
-      def add_y_axis(*args)
-        @y_axis.push(*args)
-      end
-
       def [](index)
-        @items[index]
+        @series[index]
       end
 
       def []=(index, *args)
-        @items[index] = *args
-      end
-
-      def items=(array)
-        @items = array
+        @series[index] = Serie.new(*args)
       end
 
       def delete(index)
-        @items.delete_at(index)
+        @series.delete_at(index)
+      end
+
+      def x_axis
+        { :labels => labels, :type => type }
+      end
+
+      def y_axis
+        { :format => format, :unit => unit }
       end
 
       def data_payload
         {
-          :item => self.to_a,
-          :settings => {
-            :axisx => self.x_axis,
-            :axisy => self.y_axis,
-            :colour => self.color
-          }
+          :x_axis => x_axis,
+          :y_axis => y_axis,
+          :series => self.map{ |serie| self.serie_payload(serie) }
         }
+      end
+
+      def serie_payload(serie)
+        h = { :data => serie.data }
+        %w(name incomplete_from type).each do |k|
+          h.merge!(k.to_sym => serie.send(k)) if serie.send(k)
+        end
+        h
       end
     end
   end

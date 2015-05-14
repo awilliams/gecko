@@ -13,7 +13,7 @@ describe Gecko do
     it 'should allow setting/getting #api_key' do
       api_key = 'abc1234'
       described_class.config.api_key = api_key
-      described_class.config.api_key.should eql api_key
+      expect(described_class.config.api_key).to eql(api_key)
     end
 
     it '#http_builder by default should not respond to call' do
