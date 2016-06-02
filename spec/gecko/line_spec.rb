@@ -12,8 +12,8 @@ describe Gecko::Widget::Line do
       expect(@widget.payload).to be_a_valid_payload(
         TEST_API_KEY,
         {
-          :x_axis => { :labels => nil, :type => nil },
-          :y_axis => { :format => nil, :unit => nil },
+          :x_axis => {},
+          :y_axis => {},
           :series => []
         }
       )
@@ -25,8 +25,8 @@ describe Gecko::Widget::Line do
       expect(@widget.payload).to be_a_valid_payload(
         TEST_API_KEY,
         {
-          :x_axis => { :labels => ['a', 'b', 'c'], :type => nil },
-          :y_axis => { :format => nil, :unit => nil },
+          :x_axis => { :labels => ['a', 'b', 'c'] },
+          :y_axis => {},
           :series => [{
             :data => [5, 6, 7]
           }]
@@ -43,8 +43,8 @@ describe Gecko::Widget::Line do
       expect(@widget.payload).to be_a_valid_payload(
         TEST_API_KEY,
         {
-          :x_axis => { :labels => ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], :type => nil },
-          :y_axis => { :format => 'currency', :unit => nil },
+          :x_axis => { :labels => ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"] },
+          :y_axis => { :format => 'currency' },
           :series => [
             {:data => [1.62529, 1.56991], :name => "GBP -> USD"},
             {:data => [1.23226, 1.15025], :name => "GBP -> EUR"}

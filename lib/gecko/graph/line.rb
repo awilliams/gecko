@@ -40,11 +40,11 @@ module Gecko
       end
 
       def x_axis
-        { :labels => labels, :type => type }
+        compact({ :labels => labels, :type => type })
       end
 
       def y_axis
-        { :format => format, :unit => unit }
+        compact({ :format => format, :unit => unit })
       end
 
       def data_payload
@@ -56,11 +56,13 @@ module Gecko
       end
 
       def serie_payload(serie)
-        h = { :data => serie.data }
-        %w(name incomplete_from type).each do |k|
-          h.merge!(k.to_sym => serie.send(k)) if serie.send(k)
-        end
-        h
+        compact(serie.to_h)
+      end
+
+      private
+
+      def compact(hash)
+        hash.select { |_, value| !value.nil? }
       end
     end
   end
