@@ -18,13 +18,13 @@ describe Gecko do
 
     it '#http_builder by default should not respond to call' do
       described_class.config.http_builder # nil out any previous values
-      expect(described_class.config.connection_builder.respond_to?(:call)).to be_false
+      expect(described_class.config.connection_builder.respond_to?(:call)).to be false
     end
 
     it '#http_builder should allow setting via block' do
       proc = Proc.new { 1 }
       described_class.config.http_builder(&proc)
-      expect(described_class.config.connection_builder.respond_to?(:call)).to be_true
+      expect(described_class.config.connection_builder.respond_to?(:call)).to be true
       expect(described_class.config.connection_builder).to be proc
     end
   end

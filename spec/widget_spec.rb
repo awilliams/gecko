@@ -31,7 +31,7 @@ describe Gecko::Widget do
       it 'should return 1 request objects' do
         update_result = @widget.update
         expect(update_result).to be_a(Array)
-        expect(update_result).to have(1).items
+        expect(update_result.length).to eql(1)
         update_result.each do |result|
           expect(result).to be_a(Gecko::Http::Result)
         end
@@ -39,8 +39,8 @@ describe Gecko::Widget do
 
       it 'should evoke callback passed to #update' do
         callback = MockBlock.new
-        callback.should_receive(:call).once.with do |success, result, key|
-          expect(success).to be_true
+        expect(callback).to receive(:call).once do |success, result, key|
+          expect(success).to be true
           expect(result).to be_a(Gecko::Http::Result)
           expect(key).to eq('widget_key1')
         end
@@ -49,8 +49,8 @@ describe Gecko::Widget do
 
       it 'should evoke callback passed to #on_update' do
         callback = MockBlock.new
-        callback.should_receive(:call).once.with do |success, result, key|
-          expect(success).to be_true
+        expect(callback).to receive(:call).once do |success, result, key|
+          expect(success).to be true
           expect(result).to be_a(Gecko::Http::Result)
           expect(key).to eq('widget_key1')
         end
@@ -62,7 +62,7 @@ describe Gecko::Widget do
         let(:http_response) { @widget.update.first }
 
         it 'should have no errors' do
-          expect(http_response.error?).to be_false
+          expect(http_response.error?).to be false
         end
       end
 
@@ -80,7 +80,7 @@ describe Gecko::Widget do
       it 'should return 2 request objects' do
         update_result = @widget.update
         expect(update_result).to be_a(Array)
-        expect(update_result).to have(2).items
+        expect(update_result.length).to eql(2)
         update_result.each do |result|
           expect(result).to be_a(Gecko::Http::Result)
         end
@@ -88,8 +88,8 @@ describe Gecko::Widget do
 
       it 'should evoke callback passed to #update' do
         callback = MockBlock.new
-        callback.should_receive(:call).twice.with do |success, result, key|
-          expect(success).to be_true
+        expect(callback).to receive(:call).twice do |success, result, key|
+          expect(success).to be true
           expect(result).to be_a(Gecko::Http::Result)
           expect(key).to match(/widget_key[1|2]/)
         end
@@ -98,8 +98,8 @@ describe Gecko::Widget do
 
       it 'should evoke callback passed to #on_update' do
         callback = MockBlock.new
-        callback.should_receive(:call).twice.with do |success, result, key|
-          expect(success).to be_true
+        expect(callback).to receive(:call).twice do |success, result, key|
+          expect(success).to be true
           expect(result).to be_a(Gecko::Http::Result)
           expect(key).to match(/widget_key[1|2]/)
         end
@@ -112,7 +112,7 @@ describe Gecko::Widget do
 
         it 'should have no errors' do
           http_responses.each do |http_response|
-            expect(http_response.error?).to be_false
+            expect(http_response.error?).to be false
           end
         end
       end
@@ -130,7 +130,7 @@ describe Gecko::Widget do
       it 'should return 2 request objects' do
         update_result = @widget.update
         expect(update_result).to be_a(Array)
-        expect(update_result).to have(2).items
+        expect(update_result.length).to eql(2)
         update_result.each do |result|
           expect(result).to be_a(Gecko::Http::Result)
         end
@@ -138,8 +138,8 @@ describe Gecko::Widget do
 
       it 'should evoke callback passed to #update' do
         callback = MockBlock.new
-        callback.should_receive(:call).twice.with do |success, result, key|
-          expect(success).to be_false
+        expect(callback).to receive(:call).twice do |success, result, key|
+          expect(success).to be false
           expect(result).to be_a(Gecko::Http::Result)
           expect(key).to match(/widget_key[1|2]/)
         end
@@ -148,8 +148,8 @@ describe Gecko::Widget do
 
       it 'should evoke callback passed to #on_update' do
         callback = MockBlock.new
-        callback.should_receive(:call).twice.with do |success, result, key|
-          expect(success).to be_false
+        expect(callback).to receive(:call).twice do |success, result, key|
+          expect(success).to be false
           expect(result).to be_a(Gecko::Http::Result)
           expect(key).to match(/widget_key[1|2]/)
         end
@@ -162,7 +162,7 @@ describe Gecko::Widget do
 
         it 'should have errors' do
           http_responses.each do |http_response|
-            expect(http_response.error?).to be_true
+            expect(http_response.error?).to be true
             expect(http_response.error.to_s).to eq('Push operation failed due to an unknown reason. Please try again!')
           end
         end

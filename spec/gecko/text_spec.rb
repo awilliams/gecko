@@ -6,7 +6,7 @@ describe Gecko::Widget::Text do
   describe described_class::Item do
     describe '#initialize' do
       it 'should raise error if undefined type given' do
-        expect{ described_class::Item.new('text', :undefined_type) }.to raise_error(ArgumentError)
+        expect{ described_class.new('text', :undefined_type) }.to raise_error(ArgumentError)
       end
     end
   end
