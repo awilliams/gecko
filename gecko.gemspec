@@ -22,6 +22,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "pry"
   gem.add_development_dependency "awesome_print"
   gem.add_development_dependency "yajl-ruby", "~> 1.1"
+  gem.add_development_dependency 'addressable', '~> 2.3.4'
   gem.add_development_dependency "eventmachine", "~> 1.0"
   gem.add_development_dependency "em-http-request", "~> 1.0"
 
