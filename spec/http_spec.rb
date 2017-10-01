@@ -5,7 +5,7 @@ describe Gecko::Http do
     stub = Faraday::Adapter::Test::Stubs.new do |stub|
       stub.post(url, MultiJson.encode(request_body), &response)
     end
-    described_class.new do |builder|
+    Gecko::Http.new do |builder|
       builder.adapter :test, stub
     end
   end
@@ -57,15 +57,15 @@ describe Gecko::Http do
         end
 
         it '#http_200? should be true' do
-          expect(@response.http_200?).to be_true
+          expect(@response.http_200?).to be true
         end
 
         it '#error? should be false' do
-          expect(@response.error?).to be_false
+          expect(@response.error?).to be false
         end
 
         it '#success? should be true' do
-          expect(@response.success?).to be_true
+          expect(@response.success?).to be true
         end
 
         it '#fetch should work with nested keys' do
@@ -77,7 +77,7 @@ describe Gecko::Http do
         end
 
         it '#error should return an Error instance' do
-          expect(@response.error).to be_a(described_class::Result::Error)
+          expect(@response.error).to be_a(described_class::Error)
         end
 
         it '#error should be empty' do
@@ -87,7 +87,7 @@ describe Gecko::Http do
         end
 
         it '#on_complete should call block with correct params' do
-          expect{ |p| @response.on_complete(&p) }.to yield_with_args(true, described_class::Result)
+          expect{ |p| @response.on_complete(&p) }.to yield_with_args(true, described_class)
         end
       end
 
@@ -102,15 +102,15 @@ describe Gecko::Http do
         end
 
         it '#http_200? should be true' do
-          expect(@response.http_200?).to be_false
+          expect(@response.http_200?).to be false
         end
 
         it '#error? should be false' do
-          expect(@response.error?).to be_true
+          expect(@response.error?).to be true
         end
 
         it '#success? should be true' do
-          expect(@response.success?).to be_false
+          expect(@response.success?).to be false
         end
 
         it '#fetch should work with nested keys' do
@@ -122,7 +122,7 @@ describe Gecko::Http do
         end
 
         it '#error should return an Error instance' do
-          expect(@response.error).to be_a(described_class::Result::Error)
+          expect(@response.error).to be_a(described_class::Error)
         end
 
         it '#error should be populated' do
@@ -132,7 +132,7 @@ describe Gecko::Http do
         end
 
         it '#on_complete should call block with correct params' do
-          expect { |p| @response.on_complete(&p) }.to yield_with_args(false, described_class::Result)
+          expect { |p| @response.on_complete(&p) }.to yield_with_args(false, described_class)
         end
       end
     end
