@@ -24,7 +24,7 @@ describe Gecko::Http do
       Gecko.config.http_builder { |c|
         expect(c).to be_a(Faraday::Connection)
       }
-      Gecko.config.connection_builder.should_receive(:call).and_call_original
+      expect(Gecko.config.connection_builder).to receive(:call).and_call_original
       described_class.new
     end
   end

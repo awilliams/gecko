@@ -12,7 +12,7 @@ RSpec::Matchers.define :be_a_valid_payload do |api_key, data|
   match do |actual|
     actual.kind_of?(Hash) && actual == payload(api_key, data)
   end
-  failure_message_for_should do |actual|
+  failure_message do |actual|
     "expected that\n#{actual.inspect}\nwould be\n#{payload(api_key, data).inspect}"
   end
 end
